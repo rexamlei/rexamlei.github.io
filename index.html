@@ -1,47 +1,212 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>REXAM的导航页</title>
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(99, 102, 241, 0.5);
+      --text-main: #f3f4f6;
+      --text-sub: #9ca3af;
+      --accent-glow: rgba(99, 102, 241, 0.15);
+    }
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="我的个人博客 : My Blog 记录我的点滴">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+      padding: 2rem 1rem;
+    }
 
-    <title>我的个人博客</title>
-  </head>
+    /* 炫酷的动态微光背景 */
+    .glow-orb {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(40px);
+    }
 
-  <body>
+    .container {
+      width: 100%;
+      max-width: 760px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/rexamlei">View on GitHub</a>
+    header {
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
 
-          <h1 id="project_title">我的个人博客</h1>
-          <h2 id="project_tagline">My Blog 记录我的点滴</h2>
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff 40%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
 
-        </header>
-    </div>
+    .subtitle {
+      font-size: 0.875rem;
+      color: var(--text-sub);
+      letter-spacing: 0.05em;
+    }
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>欢迎你来到我的博客1</h3>
-           <p>这里是我的博客，将要记录我的点滴1。。。。。。。。。。。。。。。</p>
-        <h3>欢迎你来到我的博客2</h3>
-           <p>这里是我的博客，将要记录我的点滴2。。。</p>
-      </section>
-    </div>
+    /* 一行两个的网格布局 */
+    .grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+    /* 导航卡片 */
+    .card {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.5rem 1.25rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
 
-    
+    /* 鼠标悬停动效与发光边框 */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, var(--accent-glow), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
-  </body>
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(99, 102, 241, 0.2);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-title svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-sub);
+      transition: transform 0.3s ease, stroke 0.3s ease;
+    }
+
+    .card:hover .card-title svg {
+      transform: translate(2px, -2px);
+      stroke: #818cf8;
+    }
+
+    .card-desc {
+      font-size: 0.775rem;
+      color: var(--text-sub);
+      word-break: break-all;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    /* 移动端响应式：屏幕过窄时自动转为单列以保体验 */
+    @media (max-width: 520px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-orb"></div>
+
+  <div class="container">
+    <header>
+      <h1>REXAM</h1>
+      <p class="subtitle">Personal Workspace & Services</p>
+    </header>
+
+    <main class="grid">
+      <a href="http://rexam.myds.me" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-title">
+          <span>我的NAS（IPv6）</span>
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </div>
+        <div class="card-desc">http://rexam.myds.me</div>
+      </a>
+
+      <a href="http://quickconnect.cn/hulei" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-title">
+          <span>我的NAS（全IP）</span>
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </div>
+        <div class="card-desc">quickconnect.cn/hulei</div>
+      </a>
+
+      <a href="https://web.myjob.us.kg" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-title">
+          <span>E-LabAI系统</span>
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </div>
+        <div class="card-desc">https://web.myjob.us.kg</div>
+      </a>
+
+      <a href="https://dashboard.digitalplat.org" target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-title">
+          <span>免费域名管理</span>
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </div>
+        <div class="card-desc">rexam@outlook.com</div>
+      </a>
+    </main>
+  </div>
+</body>
 </html>
